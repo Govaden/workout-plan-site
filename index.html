@@ -153,6 +153,7 @@ function push(){if(!dbDoc)return;clearTimeout(pt);pt=setTimeout(function(){dbDoc
 var IMG={sq:"images/sq.webp",bn:"images/bn.webp",rw:"images/rw.webp"};
 Object.assign(IMG,{wa:"images/wa.webp",bp:"images/bp.webp",wp:"images/wp.webp",wt:"images/wt.webp",sc:"images/sc.webp",sh:"images/sh.webp",sf:"images/sf.webp",sg:"images/sg.webp",sk:"images/sk.webp",qs:"images/qs.webp",op:"images/op.webp"});
 Object.assign(IMG,{sp:"images/sp.webp",pl:"images/pl.webp",pp:"images/pp.webp",lr:"images/lr.webp",fp:"images/fp.webp",rd:"images/rd.webp",pd:"images/pd.webp"});
+Object.assign(IMG,{sr:"images/sr.webp",lc:"images/lc.webp"});
 function fig(id){if(IMG[id])return '<img class="ph" alt="Схема упражнения" src="'+IMG[id]+'">';var d=F[id],h='<svg viewBox="0 -14 120 104" role="img" aria-label="Схема упражнения" data-id="'+id+'"><path class="gr" d="'+d.g+'"/>';
 if(d.c)h+='<line class="eq cb"/>';
 if(!d.n)h+='<polyline class="lg far" transform="translate(-4 0)"/><polyline class="am far" transform="translate(4 0)"/>';
