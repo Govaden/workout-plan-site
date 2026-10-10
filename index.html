@@ -213,6 +213,37 @@ h1,h2,h3{text-wrap:balance}
 @keyframes pvA{from{opacity:.2;transform:translateX(-28px)}to{opacity:1;transform:none}}
 @keyframes pvB{from{opacity:.2;transform:translateX(-28px)}to{opacity:1;transform:none}}
 .an-nA{animation:nxA .22s ease-out}.an-nB{animation:nxB .22s ease-out}.an-pA{animation:pvA .22s ease-out}.an-pB{animation:pvB .22s ease-out}
+:root[data-theme="red"]{--bg:#0a0a0a;--card:#171717;--tx:#fff;--mu:#b3b3b3;--ln:#2e2e2e;--ac:#e5202c;--on:#fff;--hd:#000;--ctl:#2a2a2a;--well:#0a0a0a;--hm:#d0d0d0;--hl:#2e2e2e;--lk:#ff6168}
+:root[data-theme="red"] .btn.dg{color:#ff8a8a;border-color:#ff8a8a}
+:root[data-theme="gold"]{--bg:#f4f6fb;--card:#fff;--tx:#0a1f5c;--mu:#4a5a85;--ln:#b9c8ea;--ac:#f5c518;--on:#0a1f5c;--hd:#0a1f5c;--ctl:#2a4aa0;--well:#f4f6fb;--hm:#d6e0f7;--hl:#0a1f5c}
+:root[data-theme="gold"] .wsw{background:#12307f;border-color:#12307f;color:#fff}
+:root[data-theme="gold"] .wt span{color:#c6d3f2}
+:root[data-theme="gold"] .ar{border-color:#4a6ac4}
+:root[data-theme="gold"] .sg{background:#3d5cb5}
+:root[data-theme="gold"] .sg.done{background:#fff}
+:root[data-theme="gold"] .sg.open{background:var(--ac)}
+:root[data-theme="gold"] .sg.sl{outline-color:#fff}
+:root[data-theme="gold"] .wsw .bdg{border-color:#4a6ac4;background:#0a1f5c;color:#fff}
+:root[data-theme="gold"] .wsw .bdg.dn{border-color:#fff;background:#fff;color:#12307f}
+:root[data-theme="gold"] .wsw .bdg.on{border-color:var(--ac);background:var(--ac);color:var(--on)}
+:root[data-theme="gold"] #bn{background:#12307f;border-top-color:#12307f}
+:root[data-theme="gold"] #bn button{color:#c6d3f2}
+:root[data-theme="gold"] #bn button[aria-current]{color:#f5c518}
+:root[data-theme="gold"] #side{background:#12307f;border-right-color:#12307f;color:#fff}
+:root[data-theme="gold"] #side button,:root[data-theme="gold"] #side .vr{color:#c6d3f2}
+:root[data-theme="gold"] #side button[aria-current]{background:var(--ac);color:var(--on)}
+:root[data-theme="gold"] .sh{background:#12307f;color:#fff}
+:root[data-theme="gold"] .sh .sb{background:var(--ac);color:var(--on)}
+:root[data-theme="gold"] .sh .rb{border-color:rgba(255,255,255,.35)}
+:root[data-theme="gold"] .sh .pb{background:rgba(255,255,255,.25)}
+:root[data-theme="gold"] .sh .pb i{background:var(--ac)}
+.btn.s2{color:var(--lk,var(--ac))}
+.thm{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.thm button{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:64px;padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--ln);font-weight:600;font-size:15px;text-align:left}
+.thm button.on{border:2px solid var(--tx);padding:9px 11px}
+.thm .sw{display:flex;gap:4px}
+.thm .sw i{width:22px;height:22px;border-radius:11px;border:1px solid rgba(128,128,128,.55)}
+@media(min-width:1000px){.thm{grid-template-columns:repeat(3,minmax(0,1fr))}}
 [hidden]{display:none!important}
 .top2,.top2c{display:flex;flex-direction:column;gap:14px}.cols{display:flex;flex-direction:column;gap:14px}.cols>aside{display:flex;flex-direction:column;gap:14px}
 .desk{display:none}
@@ -361,7 +392,7 @@ figs=[].map.call(document.querySelectorAll("svg[data-id]"),function(s){return{d:
 if(matchMedia("(prefers-reduced-motion:reduce)").matches){figs.forEach(function(f){pose(f,0)});return}
 (function L(ts){figs.forEach(function(f){pose(f,ts/1000)});raf=requestAnimationFrame(L)})(0)}
 var REC={2:{sq:"стартовый вес из недели 1, +2,5 кг, когда все подходы чистые",bn:"стартовый вес из недели 1",rw:"вес из недели 1, при чистых подходах +1-2 кг",op:"лёгкие гантели, техника важнее веса",rd:"вес из недели 1, спина ровная",pd:"вес, с которым получается 3 x 8-12; добавляйте, когда сделаете 3 x 12",fp:"лёгкий вес, медленно: локти вверх",cc:"лёгкий вес, скругляй поясницу, а не тяни руками",sp:"10-15 с на сторону, добавляй по 5 с",lr:"если ноги не идут прямыми, сгибай колени",pl:"20-30 с с идеальной формой"}};
-var NK="",NM=-1,cur=0,tab="today",sess=false,stg=1,tm=0,iv=0,ps=0,TH=["auto","light","dark"],ti=0,ui=1,RS={a:75,m:150},lift="",VER="-",$=function(s){return document.querySelector(s)},wide=matchMedia("(min-width:1000px)");
+var NK="",NM=-1,cur=0,tab="today",sess=false,stg=1,tm=0,iv=0,ps=0,TH=["auto","light","dark","red","gold"],TN=[["Авто",["#e9ebee","#0e1013","#f2c200"]],["Светлая",["#e9ebee","#fff","#f2c200"]],["Тёмная",["#0e1013","#1a1d22","#f2c200"]],["Чёрно-красная",["#0a0a0a","#e5202c","#fff"]],["Синяя с золотом",["#f4f6fb","#12307f","#f5c518"]]],ti=0,ui=1,RS={a:75,m:150},lift="",VER="-",$=function(s){return document.querySelector(s)},wide=matchMedia("(min-width:1000px)");
 function dt(i){var w=Math.floor(i/3);return new Date(2026,9,3+w*7+(w?[0,3,5]:[1,3,5])[i%3])}
 function wd(d){return d.toLocaleDateString("ru-RU",{weekday:"short"})}
 function dm(d){return d.toLocaleDateString("ru-RU",{day:"numeric",month:"short"})}
@@ -483,9 +514,10 @@ h+='<section class="card"><div class="hd" style="margin-bottom:10px"><h2>Все 
 for(var i=0;i<36;i++)h+='<button data-a="cell" data-i="'+i+'" class="'+(fin(i)?'on':i==cur?'cu':'')+(locked(Math.floor(i/3)+1)?' lk0':'')+'"'+(locked(Math.floor(i/3)+1)?' aria-disabled="true"':'')+' aria-label="Тренировка '+(i+1)+(fin(i)?', выполнена':locked(Math.floor(i/3)+1)?', заблокирована':'')+'"></button>';
 return h+'</div></section></div>'}
 /* ---------- profile ---------- */
+function thH(){return '<div class="thm" role="group" aria-label="Тема">'+TN.map(function(x,i){return '<button data-a="th" data-v="'+i+'" class="'+(i==ti?'on':'')+'" aria-pressed="'+(i==ti)+'"><span class="sw">'+x[1].map(function(c){return '<i style="background:'+c+'"></i>'}).join("")+'</span><span>'+(i==ti?'✓ ':'')+x[0]+'</span></button>'}).join("")+'</div>'}
 function segH(items,sel,a,extra){return '<div class="seg" role="group">'+items.map(function(x){return '<button data-a="'+a+'" data-v="'+x[1]+'"'+(extra||"")+' class="'+(x[1]==sel?'on':'')+'" aria-pressed="'+(x[1]==sel)+'">'+x[0]+'</button>'}).join("")+'</div>'}
 function rProf(){var w2=wide.matches,h='<div class="pg'+(w2?' wide':'')+'"><header><div class="eb">Настройки и данные</div><h1>Профиль</h1></header><div class="'+(w2?'pgrid':'top2c')+'">';
-h+='<section class="card"><h2>Оформление</h2><div class="lab">Тема</div>'+segH([["Авто",0],["Светлая",1],["Тёмная",2]],ti,"th")+'<div class="lab">Масштаб интерфейса</div>'+segH([["85%",0.85],["100%",1],["115%",1.15],["130%",1.3]],ui,"ui")+'<p>Увеличивает весь интерфейс: текст, кнопки, картинки и отступы.</p></section>';
+h+='<section class="card"><h2>Оформление</h2><div class="lab">Тема</div>'+thH()+'<div class="lab">Масштаб интерфейса</div>'+segH([["85%",0.85],["100%",1],["115%",1.15],["130%",1.3]],ui,"ui")+'<p>Увеличивает весь интерфейс: текст, кнопки, картинки и отступы.</p></section>';
 h+='<section class="card"><h2>Отдых между подходами</h2><div class="lab">Аксессуарные</div>'+segH([["60 с",60],["75 с",75],["90 с",90]],RS.a,"rt",' data-g="a"')+'<div class="lab">Основные</div>'+segH([["120 с",120],["150 с",150],["180 с",180]],RS.m,"rt",' data-g="m"')+'</section>';
 h+='<section class="card"><h2>Синхронизация и резерв</h2><p>Данные хранятся только на этом устройстве. Чтобы перенести их на другое: здесь «Скачать файл» (или «Копировать»), на другом устройстве «Импорт». Записи объединяются, более новые побеждают, ничего не стирается.</p><p id="io" role="status"></p><div class="grid2"><button class="btn" data-a="xf">Скачать файл</button><button class="btn s" data-a="xc">Копировать</button><button class="btn s" data-a="if">Импорт из файла</button><button class="btn s" data-a="it">Импорт из текста</button></div><input type="file" id="fi" accept=".json,application/json" hidden><div id="xp"></div></section>';
 h+='<section class="card"><h2>Данные</h2><p>Текстовая сводка для себя. «Очистить всё» стирает данные только на этом устройстве, на другом они останутся.</p><div class="two"><button class="btn s" data-a="ex">Показать сводку</button><button class="btn dg" data-a="rs" style="width:auto;flex:0 0 auto">Очистить всё</button></div><div id="xo"></div></section></div><div id="ver">Версия <span id="vn">'+esc(VER)+'</span></div></div>';return h}
@@ -568,7 +600,7 @@ function sth(){var m=TH[ti],h=document.documentElement;if(m=="auto")h.removeAttr
 function sui(){document.documentElement.style.setProperty("--ui",ui);sp("gp-ui",{v:ui})}
 try{wide.addEventListener("change",function(){render()})}catch(x){try{wide.addListener(function(){render()})}catch(y){}}
 (function(){var n=new Date();n.setHours(0,0,0,0);cur=35;for(var i=0;i<36;i++){if(dt(i)>=n){cur=i;break}}if(locked(Math.floor(cur/3)+1))cur=firstOpen();
-var u=lp("gp-ui").v;if(u>=0.85&&u<=1.3)ui=u;var r=lp("gp-rest");if(r.a)RS.a=r.a;if(r.m)RS.m=r.m;ti=lp("gp-th").v||0;if(ti<0||ti>2)ti=0;sth();sui();if(lp("gp-sb").v)document.body.classList.add("nosb");render()})();
+var u=lp("gp-ui").v;if(u>=0.85&&u<=1.3)ui=u;var r=lp("gp-rest");if(r.a)RS.a=r.a;if(r.m)RS.m=r.m;ti=lp("gp-th").v||0;if(ti<0||ti>4)ti=0;sth();sui();if(lp("gp-sb").v)document.body.classList.add("nosb");render()})();
 (async function(){
 var v="dev";
 try{v=(await (await fetch("version.json",{cache:"no-cache"})).json()).version}catch(x){}
