@@ -123,6 +123,7 @@ h3{font-size:19px;line-height:1.15}
 .ex{scroll-margin-top:12px}
 .ex.cur{border:2px solid var(--ac);padding:15px}
 .ex .eh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.exg,.ef{display:contents}
 .sc{font-weight:600;color:var(--mu);white-space:nowrap}
 .ex img.ph{width:100%;max-height:70vh;height:auto;object-fit:contain;background:var(--well);border-radius:8px;margin:8px 0;display:block}
 svg[data-id]{width:100%;max-height:150px;background:var(--well);border-radius:8px;margin:8px 0;display:block}
@@ -270,6 +271,7 @@ main{flex:1;min-width:0}
 .pg{max-width:1100px;padding:32px 40px 110px}
 h1{font-size:48px;line-height:1}
 .pg.wide{max-width:1200px}
+.pg.xw{max-width:1800px}
 .days{max-width:520px}
 .top2{flex-direction:row;flex-wrap:wrap;gap:24px}.top2c{gap:24px}.top2>*{flex:1 1 320px;min-width:0}
 .top2>.rc{flex:1 1 420px}
@@ -277,6 +279,21 @@ h1{font-size:48px;line-height:1}
 .cols>.main{flex:999 1 480px;min-width:0;display:flex;flex-direction:column;gap:12px}
 .cols>aside{flex:1 1 300px;max-width:360px;gap:16px;position:sticky;top:16px}
 .ex img.ph{max-width:560px}
+.exg{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:12px;align-items:start}
+.ex{display:grid;grid-template-columns:120px minmax(0,1fr);column-gap:12px;row-gap:6px;align-items:start;padding:14px 16px}
+.ex.cur{padding:13px 15px}
+.ex>.eh{grid-column:2;grid-row:1}
+.ex>img.ph,.ex>svg[data-id]{grid-column:1;grid-row:1/4;width:120px;height:68px;max-width:none;max-height:none;margin:0;object-fit:cover}
+.ex>.ep{grid-column:2;grid-row:2}
+.ex>.ep p{font-size:14px;line-height:1.3;margin-top:4px}
+.ex>.ep p:first-child{margin-top:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ex>.lks{grid-column:2;grid-row:3;margin-top:2px}
+.ex>.ef{grid-column:1/-1;grid-row:4;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:6px}
+.ex .sets{margin-top:0;flex-wrap:nowrap}
+.ex .wi{margin-top:0;padding-top:0;border-top:0;flex-wrap:nowrap;gap:8px}
+.ex .wi input{width:84px;height:44px;font-size:22px}
+.ex .lk{min-height:40px;font-size:14px;padding:0 14px}
+.ex .eh h3{font-size:18px}
 .desk{display:block}.mob{display:none}
 .phg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:24px;align-items:start}
@@ -455,7 +472,7 @@ return '<section class="wsw" data-swipe="1" aria-label="Недели плана"
 function stepWeek(d){var w=Math.floor(cur/3)+1,n=Math.min(12,Math.max(1,w+d));if(n==w)return;wdir=d>0?1:-1;wpar++;cur=(n-1)*3+cur%3;render();wdir=0}
 function rToday(){var w=Math.floor(cur/3)+1,t=cur%2?"B":"A",p=ph(w),d=nD(cur),n=nT(cur),dd=dt(cur),T=totals(),cs=curStep(cur),f=fin(cur),w2=wide.matches,kd=wkKind(w),lk=kd=="locked",ow=openWeek(),h="";
 var lab=!cs?"Тренировка завершена ✓":cs.k=="wu"?"Начать с разминки":cs.k=="ex"?(d==0?"Начать основную часть":"Продолжить: "+cs.name.toLowerCase()+", подход "+(cs.m+1)):"Перейти к растяжке";
-h+='<div class="pg'+(w2?' wide':'')+'">'+wsH(w,kd)+(w2?'<header><h1>Тренировка '+t+'</h1></header>':'');
+h+='<div class="pg'+(w2?' wide xw':'')+'">'+wsH(w,kd)+(w2?'<header><h1>Тренировка '+t+'</h1></header>':'');
 h+='<div class="days">';for(var k=0;k<3;k++){var i=(w-1)*3+k,x=dt(i),tg=fin(i)?"готово":nD(i)>0?"идёт":"";h+='<button class="day'+(k==cur%3?' on':fin(i)?' dn':'')+'" data-i="'+i+'"><span>'+wd(x)+'</span><small>'+dm(x)+'</small><em>'+(i%2?"B":"A")+(tg?" · "+tg:"")+'</em></button>'}h+='</div>';
 h+='<div class="'+(w2?'top2':'top2c')+'"><section class="card rc">'+ring(T.c,36)+'<div class="sts"><div><b>'+wkDone(w)+' из 3</b><span>в неделе '+w+'</span></div><div><b>'+T.n+'</b><span>подходов всего</span></div><div><b>'+(T.t?fHM(T.t):"0 ч 0 мин")+'</b><span>время в зале</span></div></div></section>';
 if(lk){var od=wkDone(ow);h+='<section class="hero"><div class="top" style="justify-content:flex-start;gap:12px"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11h14v9H5zM8 11V8a4 4 0 018 0v3"/></svg></span><div><div class="t">'+wd(dd)+', '+dm(dd)+' · день '+t+'</div><h2>Неделя '+w+' пока закрыта</h2></div></div><div class="ht">Начать её можно после завершения недели '+(w-1)+'. Сейчас в неделе '+ow+' готово '+od+' из 3 тренировок.</div><div class="strip"><div><i><b style="width:'+100*od/3+'%"></b></i></div></div><button class="btn lg off" disabled>'+ic("M5 11h14v9H5zM8 11V8a4 4 0 018 0v3").replace("<svg","<svg style=\"fill:none;stroke:currentColor;stroke-width:2.4\"")+'Начать нельзя</button><button class="btn s2" data-a="gow">Перейти к неделе '+ow+'</button></section></div>'}
@@ -483,12 +500,12 @@ if(all)h+='<button class="btn lg" data-a="fn">'+(f?"Тренировка зав�
 return h}
 function secMain(ro){var w=Math.floor(cur/3)+1,t=cur%2?"B":"A",p=ph(w),nx=nextUp(cur),h="";
 S(t,cur).forEach(function(r,ix){var e=EX[r[0]],sc=e[3]||(r[1]?p.m:p.a),n=parseInt(sc)||3,k=key(cur,r[0]),s=ld(k),pv=prevW(r[0]),q=encodeURIComponent(e[2]),cu=nx&&nx.id==r[0],rc=REC[w]&&REC[w][r[0]];
-h+='<section class="card ex'+(cu&&!ro?' cur':'')+'" id="ex-'+r[0]+'"><div class="eh"><h3>'+e[0]+'</h3><span class="sc">'+sc+'</span></div>'+fig(r[0])+'<p>'+e[1]+'</p>'+(rc?'<p><b>Рекомендация:</b> '+rc+'</p>':'')+(r[1]?'<p><b>Набор веса:</b> '+(ix==0?'пустой гриф x 10, 50% рабочего веса x 5, 70% рабочего веса x 3, 85% рабочего веса x 1.':'50% рабочего веса x 5, 75% рабочего веса x 3.')+'</p>':'')+(['sq','bn','rd'].indexOf(r[0])>=0?'<p><b>Вес записывайте вместе с грифом (20 кг).</b></p>':'')+'<div class="sets">';
+h+='<section class="card ex'+(cu&&!ro?' cur':'')+'" id="ex-'+r[0]+'"><div class="eh"><h3>'+e[0]+'</h3><span class="sc">'+sc+'</span></div>'+fig(r[0])+'<div class="ep"><p title="'+esc(e[1])+'">'+e[1]+'</p>'+(rc?'<p><b>Рекомендация:</b> '+rc+'</p>':'')+(r[1]?'<p><b>Набор веса:</b> '+(ix==0?'пустой гриф x 10, 50% рабочего веса x 5, 70% рабочего веса x 3, 85% рабочего веса x 1.':'50% рабочего веса x 5, 75% рабочего веса x 3.')+'</p>':'')+(['sq','bn','rd'].indexOf(r[0])>=0?'<p><b>Вес записывайте вместе с грифом (20 кг).</b></p>':'')+'</div><div class="ef"><div class="sets">';
 for(var m=0;m<n;m++){var on=s.d&&s.d[m];h+='<button class="b'+(on?' d':'')+'" data-k="'+k+'" data-m="'+m+'" data-r="'+(r[1]?RS.m:RS.a)+'" aria-label="Подход '+(m+1)+'"'+(ro?' disabled':'')+'>'+(m+1)+'</button>'}
 h+='</div>';
 if(NW.indexOf(r[0])<0)h+='<div class="wi"><label for="wi-'+r[0]+'">Вес,<br>кг</label><input id="wi-'+r[0]+'" inputmode="decimal" placeholder="'+esc(pv||"кг")+'" value="'+esc(s.w)+'" data-k="'+k+'"'+(ro?' disabled':'')+'>'+(pv?'<span>прошлый раз<br>'+esc(pv)+' кг</span>':'')+'</div>';
-h+='<div class="lks"><a class="lk" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q='+q+'%20gif">'+ISEARCH+'Фото</a><a class="lk" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query='+q+'">'+IVIDEO+'Видео</a></div></section>'});
-return h}
+h+='</div><div class="lks"><a class="lk" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q='+q+'%20gif">'+ISEARCH+'Фото</a><a class="lk" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query='+q+'">'+IVIDEO+'Видео</a></div></section>'});
+return '<div class="exg">'+h+'</div>'}
 /* ---------- session (mobile) ---------- */
 function rSess(){var w=Math.floor(cur/3)+1,t=cur%2?"B":"A",d=nD(cur),n=nT(cur),tt=ld(key(cur,"tm")),f=fin(cur),h="";
 var tim=tt.d!=null?'<span class="tt" id="sw">⏱ '+fT(tt.d)+'</span><button class="rb" data-a="sr" aria-label="Сбросить секундомер">↺</button>':tt.s?'<span class="tt" id="sw">⏱ '+fT(Math.max(0,Math.floor((Date.now()-tt.s)/1000)))+'</span><button class="rb" data-a="sr" aria-label="Сбросить секундомер">↺</button>':'<button class="sb" data-a="ss">▶ Старт</button>';
