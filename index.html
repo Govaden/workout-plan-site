@@ -354,7 +354,7 @@ lc:["Сгибание ног сидя","Валик чуть выше пяток,
 tp:["Разгибание рук на блоке","Локти прижаты к бокам, разгибайте до конца, медленно возвращайте.","triceps pushdown cable form"],
 pl:["Планка","Опора на предплечья, тело прямое, напрягите ягодицы и пресс. Когда держите чисто, добавляйте по 5 секунд.","plank form","3 x 30-45 с"],
 rd:["Румынская тяга","Колени слегка согнуты, таз уходит назад, гриф скользит по бёдрам, спина ровная. Вставайте за счёт ягодиц.","romanian deadlift form"],
-op:["Жим гантелей стоя","Рёбра опущены, жмите строго вверх, без прогиба в пояснице.","dumbbell shoulder press form"],
+op:["Жим гантелей стоя","Стоя, ноги на ширине плеч. Рёбра опущены, жмите строго вверх, без прогиба в пояснице.","standing dumbbell overhead press form"],
 pd:["Тяга верхнего блока","Грудь вперёд, тяните рукоять к верху груди, локти вниз. Без раскачки.","lat pulldown form"],
 fp:["Тяга к лицу","Тяните канат к лицу, локти высоко, сводите лопатки.","cable face pull form","2 x 12-15"],
 db:["Мёртвый жук","Поясница прижата к полу. Медленно опускайте противоположные руку и ногу.","dead bug exercise form","3 x 8 на сторону"],
@@ -440,7 +440,7 @@ function anim(){cancelAnimationFrame(raf);
 figs=[].map.call(document.querySelectorAll("svg[data-id]"),function(s){return{d:F[s.dataset.id],h:s.querySelector(".hd"),t:s.querySelector(".tr"),l:s.querySelectorAll(".lg"),m:s.querySelectorAll(".am"),q:s.querySelectorAll(".eq:not(.cb)"),c:s.querySelector(".cb"),x:s.querySelector(".l2")}});
 if(matchMedia("(prefers-reduced-motion:reduce)").matches){figs.forEach(function(f){pose(f,0)});return}
 (function L(ts){figs.forEach(function(f){pose(f,ts/1000)});raf=requestAnimationFrame(L)})(0)}
-var REC={2:{sq:"стартовый вес из недели 1, +2,5 кг, когда все подходы чистые",bn:"стартовый вес из недели 1",rw:"вес из недели 1, при чистых подходах +1-2 кг",op:"лёгкие гантели, техника важнее веса",rd:"вес из недели 1, спина ровная",pd:"вес, с которым получается 3 x 8-12; добавляйте, когда сделаете 3 x 12",fp:"лёгкий вес, медленно: локти вверх",cc:"лёгкий вес, скругляй поясницу, а не тяни руками",sp:"10-15 с на сторону, добавляй по 5 с",lr:"если ноги не идут прямыми, сгибай колени",pl:"20-30 с с идеальной формой"}};
+var REC={2:{sq:"стартовый вес из недели 1, +2,5 кг, когда все подходы чистые",bn:"45 кг",rw:"10 кг",op:"8 кг, 3 x 5; пробуйте 9-10 кг, только если все подходы чистые",rd:"50 кг",pd:"40 кг, 3 x 8-12, +2,5 кг после 3 x 12",fp:"15 кг, 2 x 12-15, медленно, локти вверх",cc:"лёгкий вес, скругляй поясницу, а не тяни руками",sp:"10-15 с на сторону, добавляй по 5 с",lr:"если ноги не идут прямыми, сгибай колени",pl:"20-30 с с идеальной формой"}};
 var NK="",NM=-1,cur=0,tab="today",sess=false,stg=1,tm=0,iv=0,ps=0,TH=["auto","light","dark","red","gold"],TN=[["Авто",["#e9ebee","#0e1013","#f2c200"]],["Светлая",["#e9ebee","#fff","#f2c200"]],["Тёмная",["#0e1013","#1a1d22","#f2c200"]],["Чёрно-красная",["#0a0a0a","#e5202c","#fff"]],["Синяя с золотом",["#f4f6fb","#12307f","#f5c518"]]],ti=0,ui=1,RS={a:75,m:150},lift="",VER="-",$=function(s){return document.querySelector(s)},wide=matchMedia("(min-width:1000px)");
 function dt(i){var w=Math.floor(i/3);return new Date(2026,9,3+w*7+(w?[0,3,5]:[1,3,5])[i%3])}
 function wd(d){return d.toLocaleDateString("ru-RU",{weekday:"short"})}
@@ -603,9 +603,12 @@ $("#v").innerHTML=h;anim();window.scrollTo(0,y);if(focusEx){var fx=document.getE
 if(k=="today"){var cr=$("#v [data-cur]"),sig=cur+":"+(cr?cr.textContent:"");if(cr&&sig!=lastSig){var rc=cr.getBoundingClientRect();if(rc.top<60||rc.bottom>innerHeight-100)cr.scrollIntoView({block:"center"})}lastSig=sig}}
 function go(t){tab=t;sess=false;render()}
 /* ---------- timers ---------- */
-function clock(){var m=Math.floor(tm/60),s=tm%60;$("#tm").textContent=m+":"+(s<10?"0":"")+s;$("#tc").textContent=ps?"пауза":"отдых";$("#tpz").innerHTML=ps?'<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>':'<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';$("#tpz").setAttribute("aria-label",ps?"Продолжить":"Пауза")}
-function tick(){if(ps)return;tm--;if(tm<=0){clearInterval(iv);iv=0;$("#tb").hidden=true;try{navigator.vibrate&&navigator.vibrate(300)}catch(x){}}else clock()}
-function rest(s){tm=s;ps=0;$("#tb").hidden=false;clock();if(!iv)iv=setInterval(tick,1000)}
+function clock(){var m=Math.floor(tm/60),s=tm%60;$("#tm").textContent=m+":"+(s<10?"0":"")+s;$("#tc").textContent=ps?"пауза":wkm?"подход":"отдых";$("#tpz").innerHTML=ps?'<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>':'<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';$("#tpz").setAttribute("aria-label",ps?"Продолжить":"Пауза")}
+var wkm=0;
+function stopT(){tm=0;ps=0;wkm=0;clearInterval(iv);iv=0;$("#tb").hidden=true}
+function work(){wkm=1;tm=0;ps=0;$("#tnb").hidden=true;$("#tb").hidden=false;clock();if(!iv)iv=setInterval(tick,1000)}
+function tick(){if(ps)return;if(wkm){tm++;clock();return}tm--;if(tm<=0){try{navigator.vibrate&&navigator.vibrate(300)}catch(x){}if(NM>=0)work();else stopT()}else clock()}
+function rest(s){wkm=0;tm=s;ps=0;$("#tb").hidden=false;clock();if(!iv)iv=setInterval(tick,1000)}
 function tmv(){var el=$("#sw");if(!el)return;var t=ld(key(cur,"tm"));if(t.d!=null)el.textContent="⏱ "+fT(t.d);else if(t.s)el.textContent="⏱ "+fT(Math.max(0,Math.floor((Date.now()-t.s)/1000)))}
 setInterval(tmv,1000);
 /* ---------- export / import ---------- */
@@ -653,8 +656,8 @@ else if(a=="tp"){ps=ps?0:1;clock()}
 else if(a=="fn"){var fk=key(cur,"fin"),fv=ld(fk).v?0:1;sv(fk,{v:fv});var tk2=key(cur,"tm"),tv=ld(tk2);if(fv&&tv.s&&tv.d==null){tv.d=Math.floor((Date.now()-tv.s)/1000);sv(tk2,tv)}render(true)}
 else if(a=="ss"){var sk=key(cur,"tm");if(!ld(sk).s){sv(sk,{s:Date.now()});render(true)}}
 else if(a=="sr"){sv(key(cur,"tm"),{});render(true)}
-else if(a=="tn"){tm=0;clearInterval(iv);iv=0;$("#tb").hidden=true;var nb=document.querySelector('.b[data-k="'+NK+'"][data-m="'+NM+'"]');if(nb){nb.scrollIntoView({block:"center",behavior:"smooth"});nb.classList.add("nx");setTimeout(function(){nb.classList.remove("nx")},1800)}}
-else if(a=="tx"){tm=0;ps=0;clearInterval(iv);iv=0;$("#tb").hidden=true}
+else if(a=="tn"){if(NM>=0)work();else stopT();var nb=document.querySelector('.b[data-k="'+NK+'"][data-m="'+NM+'"]');if(nb){nb.scrollIntoView({block:"center",behavior:"smooth"});nb.classList.add("nx");setTimeout(function(){nb.classList.remove("nx")},1800)}}
+else if(a=="tx"){stopT()}
 else if(a=="xf"){dl();io("Файл сохранён (обычно в папку загрузок).")}
 else if(a=="xc"){var xs=pack(),xd=function(){io("Данные скопированы. На другом устройстве вставьте их через «Импорт из текста».")},xe=function(){io("Копирование не удалось. Используйте «Скачать файл».")};try{navigator.clipboard.writeText(xs).then(xd,xe)}catch(z){xe()}}
 else if(a=="if"){$("#fi").click()}
