@@ -204,8 +204,7 @@ h1,h2,h3{text-wrap:balance}
 .ar{width:44px;height:44px;flex:0 0 auto;border-radius:12px;border:2px solid var(--ln);display:flex;align-items:center;justify-content:center}
 .ar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .sgs{display:flex;gap:4px;margin:14px 0 12px}
-.sg{position:relative;flex:1;height:10px;border-radius:5px;padding:0;background:var(--ln)}
-.sg::after{content:"";position:absolute;inset:-14px -2px}
+.sg{flex:1;height:10px;border-radius:5px;background:var(--ln);pointer-events:none}
 .sg.done{background:var(--tx)}.sg.open{background:var(--ac)}
 .sg.sl{outline:3px solid var(--tx);outline-offset:2px}
 .wst{display:flex;justify-content:center}.wst .bdg{margin-top:0}
@@ -409,9 +408,9 @@ function stripH(){var wu=cnt(key(cur,"wu")),st=cnt(key(cur,"st")),d=nD(cur),n=nT
 return '<div class="strip"><div><i><b style="width:'+Math.min(100,100*wu/5)+'%"></b></i><span>'+(wu>=5?"✓ ":"")+'Разминка</span></div><div><i><b style="width:'+100*d/n+'%"></b></i><span>Основная · '+d+'/'+n+'</span></div><div><i><b style="width:'+Math.min(100,100*st/6)+'%"></b></i><span>'+(st>=6?"✓ ":"")+'Растяжка</span></div></div>'}
 var wdir=0,wpar=0;
 function wsH(w,kd){var d0=dt((w-1)*3),d1=dt((w-1)*3+2),sg="",k,c,cls=wdir?" an-"+(wdir>0?"n":"p")+(wpar%2?"A":"B"):"";
-for(k=1;k<=12;k++){c=wkKind(k);sg+='<button class="sg '+c+(k==w?' sl':'')+'" data-w="'+k+'" aria-pressed="'+(k==w)+'" aria-label="Неделя '+k+(c=="locked"?", закрыта":c=="done"?", завершена":", открыта")+'"></button>'}
+for(k=1;k<=12;k++){c=wkKind(k);sg+='<span class="sg '+c+(k==w?' sl':'')+'"></span>'}
 var hid=function(f){return f?' style="visibility:hidden" tabindex="-1" aria-hidden="true"':''};
-return '<section class="wsw" data-swipe="1" aria-label="Недели плана"><div class="'+cls.trim()+'"><div class="wr"><button class="ar" data-a="wk" data-d="-1" aria-label="Предыдущая неделя"'+hid(w==1)+'><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div class="wt"><b>Неделя '+w+' из 12</b><span>'+dm(d0).replace(".","")+' – '+dm(d1).replace(".","")+'</span><span>'+phName(w)+'</span></div><button class="ar" data-a="wk" data-d="1" aria-label="Следующая неделя"'+hid(w==12)+'><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="sgs" role="group" aria-label="Все недели плана">'+sg+'</div><div class="wst">'+bdgH(kd,wkStarted(w))+'</div></div></section>'}
+return '<section class="wsw" data-swipe="1" aria-label="Недели плана"><div class="'+cls.trim()+'"><div class="wr"><button class="ar" data-a="wk" data-d="-1" aria-label="Предыдущая неделя"'+hid(w==1)+'><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div class="wt"><b>Неделя '+w+' из 12</b><span>'+dm(d0).replace(".","")+' – '+dm(d1).replace(".","")+'</span><span>'+phName(w)+'</span></div><button class="ar" data-a="wk" data-d="1" aria-label="Следующая неделя"'+hid(w==12)+'><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="sgs" role="img" aria-label="Неделя '+w+' из 12">'+sg+'</div><div class="wst">'+bdgH(kd,wkStarted(w))+'</div></div></section>'}
 function stepWeek(d){var w=Math.floor(cur/3)+1,n=Math.min(12,Math.max(1,w+d));if(n==w)return;wdir=d>0?1:-1;wpar++;cur=(n-1)*3+cur%3;render();wdir=0}
 function rToday(){var w=Math.floor(cur/3)+1,t=cur%2?"B":"A",p=ph(w),d=nD(cur),n=nT(cur),dd=dt(cur),T=totals(),cs=curStep(cur),f=fin(cur),w2=wide.matches,kd=wkKind(w),lk=kd=="locked",ow=openWeek(),h="";
 var lab=!cs?"Тренировка завершена ✓":cs.k=="wu"?"Начать с разминки":cs.k=="ex"?(d==0?"Начать основную часть":"Продолжить: "+cs.name.toLowerCase()+", подход "+(cs.m+1)):"Перейти к растяжке";
