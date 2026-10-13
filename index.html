@@ -283,6 +283,8 @@ body.sess .ex{scroll-margin-top:calc(var(--shh,0px) + 66px)}
 .tpn{display:flex;align-items:center;gap:12px;background:var(--ctl);border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.3}
 .tpn svg{width:20px;height:20px;fill:currentColor;flex:0 0 auto}.tpn b{display:block;font-weight:600}.tpn span{color:var(--hm)}
 #tb .c{min-width:0}#tc{display:block;line-height:1.15}
+.pre{white-space:pre-wrap;word-break:break-word;font:13px/1.45 ui-monospace,Menlo,Consolas,monospace;background:var(--bg);border:1px solid var(--ln);border-radius:10px;padding:10px 12px;color:var(--tx);margin-top:10px}
+.cpb{margin-top:12px}.cpb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 [hidden]{display:none!important}
 .top2,.top2c{display:flex;flex-direction:column;gap:14px}.cols{display:flex;flex-direction:column;gap:14px}.cols>aside{display:flex;flex-direction:column;gap:14px}
 .desk{display:none}
@@ -534,6 +536,7 @@ var st=cnt(key(cur,"st")),cst=cs&&cs.k=="st";h+=R(cst?' cur':st>=6?' dn':'',2,cs
 return h+'</div>'}
 /* ---------- stages ---------- */
 function tk(g,x,on,img,nm,rp){return '<button class="tile'+(on?' on':'')+'" data-a="tk" data-g="'+g+'" data-x="'+x+'" aria-pressed="'+!!on+'"><img alt="Схема упражнения" src="'+IMG[img]+'"><b>'+nm+'</b><span>'+rp+(on?" · готово":"")+'</span></button>'}
+var CPI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9h10v11H9zM5 15V4h10"/></svg>',CPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
 var NT=[["note0","Заметки к разминке","Как разогрелись, что мешало"],["note1","Заметки к основной части","Самочувствие, веса, где техника не получалась"],["note","Заметки к растяжке","Что растягивалось плохо, где тянет"]];
 function noteH(i){var n=NT[i];return '<section class="card"><label for="nt'+i+'"><h3>'+n[1]+'</h3></label><textarea id="nt'+i+'" data-n="'+key(cur,n[0])+'" placeholder="'+n[2]+'">'+esc(ld(key(cur,n[0])).t)+'</textarea></section>'}
 function secWarm(all){var k=key(cur,"wu"),d=ld(k).d||{},c=cnt(k),h="";
@@ -546,6 +549,7 @@ function secStretch(all){var k=key(cur,"st"),d=ld(k).d||{},c=cnt(k),f=fin(cur),h
 if(all)h+='<div class="hd" style="margin-top:6px"><h2>Растяжка</h2><span class="mu sm">'+c+' из 6</span></div>';
 h+='<section class="card"><h3>Растяжка после тренировки</h3><p>Держите каждое положение 30 секунд, дышите ровно, ощущение растяжения без боли.</p></section><div class="tg">'+ST.map(function(x,i){return tk("st",i,d[i],x[0],x[1],x[2])}).join("")+'</div>';
 h+=noteH(2);
+h+='<section class="card"><h3>Итоги этой тренировки</h3><p>Текст только по этому дню: упражнения, веса, заметки, время и калории</p><div class="pre" id="dp">'+esc(dayText(cur)||"Пока нет записей.")+'</div><button class="btn cpb" data-a="cs">'+CPI+'Копировать тренировку</button></section>';
 if(all)h+='<button class="btn lg" data-a="fn">'+(f?"Тренировка завершена ✓":"Завершить тренировку")+'</button>';
 return h}
 function secMain(ro){var w=Math.floor(cur/3)+1,t=cur%2?"B":"A",p=ph(w),nx=nextUp(cur),h="",kdd=!ro&&fin(cur)?kcDay(cur):null;
@@ -638,11 +642,14 @@ function tmNote(i){var t=ld(key(i,"tm"));if(wide.matches||t.s||t.a==null||t.d!=n
 function tmv(){var el=$("#sw");if(!el)return;var t=ld(key(cur,"tm"));if(t.d!=null)el.textContent="⏱ "+fT(t.d);else if(tmOn(t))el.textContent="⏱ "+fT(tmEl(t))}
 setInterval(tmv,1000);
 /* ---------- export / import ---------- */
-function exp(){var o=["План: 12 недель, Сб/Вт/Чт. Выгрузка: "+new Date().toLocaleDateString("ru-RU")];
-for(var i=0;i<36;i++){var t=i%2?"B":"A",w=Math.floor(i/3)+1,p=ph(w),Q=[];
+function dayText(i){var t=i%2?"B":"A",w=Math.floor(i/3)+1,p=ph(w),Q=[];
 S(t,i).forEach(function(r){var e=EX[r[0]],s=ld(key(i,r[0])),c=0,m;for(m in s.d||{})if(s.d[m])c++;if(c||s.w)Q.push(" - "+e[0]+" (план "+(e[3]||(r[1]?p.m:p.a))+"): выполнено "+c+" подх."+(s.w&&NW.indexOf(r[0])<0?", вес "+s.w+" кг":""))});
-NT.forEach(function(q,ni){var nt=ld(key(i,q[0])).t;if(nt)Q.push(" Заметка ("+["разминка","основная часть","растяжка"][ni]+"): "+nt)});var tt=ld(key(i,"tm"));if(tt.d)Q.push(" Время тренировки: "+Math.round(tt.d/60)+" мин");
-if(Q.length)o.push("Нед. "+w+", "+wd(dt(i))+" "+dm(dt(i))+", день "+t+" ("+p.t+"):"),o=o.concat(Q)}
+NT.forEach(function(q,ni){var nt=ld(key(i,q[0])).t;if(nt)Q.push(" Заметка ("+["разминка","основная часть","растяжка"][ni]+"): "+nt)});
+var tt=ld(key(i,"tm")),ts=tt.d!=null?tt.d:tmOn(tt)?tmEl(tt):0;if(ts>=60)Q.push(" Время тренировки: "+Math.round(ts/60)+" мин");
+var kd=kcDay(i);if(kd.total>0)Q.push(" Калории: ≈ "+k5(kd.total)+" ккал");
+return Q.length?["Неделя "+w+", "+wd(dt(i))+" "+dm(dt(i))+", день "+t+" ("+p.t+"):"].concat(Q).join("\n"):""}
+function exp(){var o=["План: 12 недель, Сб/Вт/Чт. Выгрузка: "+new Date().toLocaleDateString("ru-RU")],i,x;
+for(i=0;i<36;i++){x=dayText(i);if(x)o.push(x)}
 return o.length>1?o.join("\n"):o[0]+"\nПока нет записей."}
 function wipe(){GS={"m|t":Date.now()};pl();render(true)}
 function pack(){return JSON.stringify({app:"strength-plan",format:1,exported:new Date().toISOString(),data:GS})}
@@ -693,12 +700,13 @@ else if(a=="if"){$("#fi").click()}
 else if(a=="it"){$("#xp").innerHTML='<textarea id="xi" aria-label="Данные для импорта" placeholder="Вставьте скопированные данные сюда"></textarea><button class="btn" data-a="ia" style="margin-top:8px">Применить</button>'}
 else if(a=="ia"){mergeIn($("#xi").value)}
 else if(a=="ex"){$("#xo").innerHTML='<textarea id="xt" readonly aria-label="Сводка"></textarea><button class="btn s" data-a="cp" style="margin-top:8px">Копировать</button>';$("#xt").value=exp()}
+else if(a=="cs"){var tx=dayText(cur)||"Пока нет записей.";try{navigator.clipboard.writeText(tx)}catch(z){}try{var ta2=document.createElement("textarea");ta2.value=tx;ta2.setAttribute("readonly","");ta2.style.cssText="position:fixed;opacity:0;left:-9999px";document.body.appendChild(ta2);ta2.select();document.execCommand("copy");document.body.removeChild(ta2)}catch(y){}t.className="btn s cpb";t.innerHTML=CPK+"Скопировано";clearTimeout(t.__t);t.__t=setTimeout(function(){t.className="btn cpb";t.innerHTML=CPI+"Копировать тренировку"},2500)}
 else if(a=="cp"){var x=$("#xt");x.select();try{navigator.clipboard.writeText(x.value)}catch(z){try{document.execCommand("copy")}catch(y){}}t.textContent="Скопировано"}
 else if(a=="rs"){if(rq){wipe()}else{rq=1;t.textContent="Нажмите ещё раз";setTimeout(function(){rq=0;t.textContent="Очистить всё"},4000)}}});
 document.addEventListener("change",function(e){var t=e.target;
 if(t.id=="fi"){var f=t.files&&t.files[0];if(!f)return;if(f.size>5e6){$("#io").textContent="Файл слишком большой.";return}var rd=new FileReader();rd.onload=function(){mergeIn(String(rd.result))};rd.readAsText(f);t.value="";return}
 if(t.id=="bw"){var b=gv(t.value);if(b>20&&b<300){BW=b;sp("gp-bw",{v:b})}t.value=fm(BW);return}
-if(t.dataset.n)sv(t.dataset.n,{t:t.value});else if(t.tagName=="INPUT"&&t.dataset.k){var s=ld(t.dataset.k);s.w=t.value;sv(t.dataset.k,s)}});
+if(t.dataset.n){sv(t.dataset.n,{t:t.value});var dp=$("#dp");if(dp)dp.textContent=dayText(cur)||"Пока нет записей."}else if(t.tagName=="INPUT"&&t.dataset.k){var s=ld(t.dataset.k);s.w=t.value;sv(t.dataset.k,s)}});
 function sth(){var m=TH[ti],h=document.documentElement;if(m=="auto")h.removeAttribute("data-theme");else h.setAttribute("data-theme",m);sp("gp-th",{v:ti});var mt=document.querySelector('meta[name="theme-color"]');if(mt)mt.content=getComputedStyle(h).getPropertyValue("--bg").trim()||"#e9ebee"}
 function sui(){document.documentElement.style.setProperty("--ui",ui);sp("gp-ui",{v:ui})}
 try{wide.addEventListener("change",function(){render()})}catch(x){try{wide.addListener(function(){render()})}catch(y){}}
